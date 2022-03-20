@@ -6,12 +6,12 @@ public class App {
     public static void main(String[] args) {
         RingCollection<Integer> myRingCollection = new RingCollection<>(5);
         myRingCollection.add(5);
-        myRingCollection.add(5);
+        myRingCollection.add(92);
         myRingCollection.add(54);
-        myRingCollection.add(43);
-        myRingCollection.add(5);
-        myRingCollection.add(5);
-        myRingCollection.add(5);
+        myRingCollection.add(3);
+        myRingCollection.add(3);
+        myRingCollection.add(2);
+        myRingCollection.add(2);
 
         Iterator<Integer> iterator = myRingCollection.iterator();
         int i = 0;
@@ -20,12 +20,14 @@ public class App {
             i++;
         }
         System.out.println(Arrays.toString(myRingCollection.getArr()));
-        myRingCollection.delete(4);
+        myRingCollection.delete(2);
         System.out.println(Arrays.toString(myRingCollection.getArr()));
-        myRingCollection.add(7);
+        myRingCollection.add(2);
         System.out.println(Arrays.toString(myRingCollection.getArr()));
 
-
+        System.out.println(myRingCollection.countRepeatingElements());
+        myRingCollection.clearAll();
+        System.out.println(Arrays.toString(myRingCollection.getArr()));
 
     }
 }

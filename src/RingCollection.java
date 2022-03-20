@@ -1,10 +1,25 @@
 import java.util.*;
 
+
+/**
+ * A ring collection class that updates elements
+ * <p>
+ * The ring collection has many useful methods and two constructors
+ * @author Yasha Ivanov
+ * @version 1.1.0
+ * @param <T>
+ */
 public class RingCollection<T> extends AbstractCollection<T> {
     private int maxSize;
     private int index;
     private T[] arr;
+    private T lastElement;
 
+    /**
+     * Constructor that set the initial size of the ring collection
+     * @param maxSize
+     * @exception IllegalArgumentException
+     */
     RingCollection(int maxSize){
         if (maxSize > 0) {
             this.maxSize = maxSize;
@@ -15,16 +30,27 @@ public class RingCollection<T> extends AbstractCollection<T> {
         }
     }
 
+    /**
+     * Constructor that will set the collection size to 10
+     */
     RingCollection(){
         this(10);
     }
 
+    /**
+     * @return returns a ring collection as an array
+     */
     public T[] getArr(){
         return arr;
     }
 
+    /**
+     * @param element - added element
+     * @return will return true if the element was added correctly
+     */
     public boolean add(T element){
         if(this.index >= this.maxSize){
+            this.lastElement = this.arr[0];
             this.index = 0;
         }
         this.arr[this.index] = element;
@@ -32,14 +58,40 @@ public class RingCollection<T> extends AbstractCollection<T> {
         return true;
     }
 
+    /**
+     * @return will return the number of duplicate elements
+     */
+    public int countRepeatingElements(){
+        return (int) (size() - Arrays.stream(this.arr).distinct().count());
+    }
 
-    public void delete(int index){
+    /**
+     * Clears the entire collection, turning the values to null
+     */
+    public void clearAll(){
+        this.arr = (T[]) Arrays.stream(this.arr).map(x -> null).toArray();
+    }
 
-        for (int i = index; i < this.arr.length-1; i++){
-            this.arr[i] = this.arr[i+1];
+    /**
+     * Sorts the elements of a collection according to a comparator
+     * @param comparator - comparator object to sort
+     */
+    public void sortElements(Comparator comparator){
+        this.arr = (T[]) Arrays.stream(this.arr).sorted(comparator).toArray();
+    }
+
+    /**
+     * Removes an element from the collection at the specified position
+     * @param pos - position to remove
+     */
+    public void delete(int pos){
+        T last;
+        for (int i = pos; i < this.arr.length-1; i++){
+            last = this.arr[i+1];
+            this.arr[i] = last;
         }
-        //this.index--;
-        this.arr[this.arr.length-1] = null;
+        this.index--;
+        this.arr[this.arr.length-1] = this.lastElement;
     }
 
     @Override
@@ -62,6 +114,9 @@ public class RingCollection<T> extends AbstractCollection<T> {
         return new RingIterator<>(this.arr);
     }
 
+    /**
+     * @return maximum collection size
+     */
     @Override
     public int size() {
         return maxSize;
