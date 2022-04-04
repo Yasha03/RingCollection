@@ -13,12 +13,6 @@ public class App {
         myRingCollection.add(2);
         myRingCollection.add(2);
 
-        Iterator<Integer> iterator = myRingCollection.iterator();
-        int i = 0;
-        while(i < 15){
-        //    System.out.println(iterator.next());
-            i++;
-        }
         System.out.println(Arrays.toString(myRingCollection.getArr()));
         myRingCollection.delete(2);
         System.out.println(Arrays.toString(myRingCollection.getArr()));
